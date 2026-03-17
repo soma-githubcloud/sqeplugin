@@ -1,0 +1,54 @@
+# SQE Kit integration configuration
+# Activate plugins by setting enabled: true and providing environment variable references.
+# NEVER hardcode credentials or tokens here — always use ${ENV_VAR} references.
+
+kit: U1
+ui_engine: playwright
+bdd: false
+reporting:
+  - allure
+  - html
+inputs:
+  - url
+  - dom
+  - cases
+
+plugins:
+  # ─── Jira / Zephyr / Xray ───────────────────────────────────────────────────
+  jira:
+    enabled: false
+    plugin: plugins/jira.md
+    baseUrl: ${JIRA_URL}            # e.g., https://your-org.atlassian.net
+    projectKey: QA
+    apiToken: ${JIRA_API_TOKEN}
+    importTestCases: false          # pull test cases from Jira when running /ingest
+    pushResults: false              # push execution results after /run-smoke
+
+  # ─── GitHub ─────────────────────────────────────────────────────────────────
+  github:
+    enabled: false
+    plugin: plugins/github.md
+    repoOwner: ${GITHUB_OWNER}
+    repoName: ${GITHUB_REPO}
+    token: ${GITHUB_TOKEN}
+    createPr: true                  # create PR with generated artifacts after generation
+    prBaseBranch: main
+    commitMessage: "feat: generated sqe-kit test artifacts"
+
+  # ─── Allure Server ──────────────────────────────────────────────────────────
+  allureServer:
+    enabled: false
+    plugin: plugins/allure-server.md
+    serverUrl: ${ALLURE_SERVER_URL} # e.g., https://allure.your-org.com
+    projectId: ${ALLURE_PROJECT_ID}
+    apiToken: ${ALLURE_TOKEN}
+    publishAfterRun: true           # auto-publish after /run-smoke
+
+# ─── Guardrails ───────────────────────────────────────────────────────────────
+guardrails:
+  selectorScoreThreshold: 0.70     # selectors below this score flagged in lint report
+  forbidXpathDepthGreaterThan: 3   # XPath with > 3 levels flagged
+  forbidSleep: true                # flag any sleep()/waitForTimeout() in generated code
+  forbidDynamicIds: true           # flag id=ember*, id=react-*, id=css-* patterns
+  requireTagOnEveryScenario: true  # all BDD scenarios must have at least @ui + @TC-*
+  idempotentGeneration: true       # generation commands never destroy existing files

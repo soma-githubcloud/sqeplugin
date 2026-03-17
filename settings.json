@@ -1,0 +1,86 @@
+{
+  "sqePluginDir": "C:\\Users\\som20\\.claude\\plugins\\sqe-kit",
+  "mcpServers": {
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@playwright/mcp@latest", "--headless"],
+      "env": {}
+    },
+    "filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."],
+      "env": {}
+    },
+    "git": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-git", "--repository", "."],
+      "env": {}
+    },
+    "shell": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-shell"],
+      "env": {}
+    }
+  },
+  "permissions": {
+    "allow": [
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_fill",
+      "mcp__playwright__browser_select_option",
+      "mcp__playwright__browser_screenshot",
+      "mcp__playwright__browser_close",
+      "mcp__filesystem__read_file",
+      "mcp__filesystem__write_file",
+      "mcp__filesystem__list_directory",
+      "mcp__filesystem__create_directory",
+      "mcp__filesystem__move_file",
+      "mcp__git__git_add",
+      "mcp__git__git_commit",
+      "mcp__git__git_status",
+      "mcp__git__git_log",
+      "mcp__git__git_push",
+      "mcp__git__git_remote",
+      "mcp__git__git_branch",
+      "mcp__shell__execute_command",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git remote *)",
+      "Bash(git branch *)",
+      "Bash(git push *)",
+      "Bash(gh pr create*)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(npm ci)",
+      "Bash(npx playwright install*)",
+      "Bash(npx playwright test*)",
+      "Bash(npx tsc*)",
+      "Bash(npx cucumber-js*)",
+      "Bash(npx allure*)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(git push --force*)",
+      "Bash(git push -f *)"
+    ]
+  },
+  "defaultSystemPrompt": "SQE Kit plugin is installed at: C:\\Users\\som20\\.claude\\plugins\\sqe-kit (referred to as PLUGIN_DIR throughout this session).\n\nPATH RESOLUTION RULE — CRITICAL: Whenever any SQE command or agent references an internal plugin file using a plugin-relative path (e.g., 'agents/capability-1/...', 'agents/capability-2/...', 'agents/capability-3/...', 'skills/...', 'rules/...', 'templates/...', 'plugins/...', 'configs/...', 'kit/...'), you MUST resolve the full absolute path by prepending PLUGIN_DIR. Examples:\n  agents/capability-1/req-ingestor.agent.md → C:\\Users\\som20\\.claude\\plugins\\sqe-kit\\agents\\capability-1\\req-ingestor.agent.md\n  skills/user-story-parser.md → C:\\Users\\som20\\.claude\\plugins\\sqe-kit\\skills\\user-story-parser.md\n  rules/manual-tc-quality.md → C:\\Users\\som20\\.claude\\plugins\\sqe-kit\\rules\\manual-tc-quality.md\n  templates/page-object.ts.tmpl → C:\\Users\\som20\\.claude\\plugins\\sqe-kit\\templates\\page-object.ts.tmpl\n  configs/integrations.yml → C:\\Users\\som20\\.claude\\plugins\\sqe-kit\\configs\\integrations.yml\n  kit/kit.config.json → C:\\Users\\som20\\.claude\\plugins\\sqe-kit\\kit\\kit.config.json\n\nSESSION START PROTOCOL:\n1. Check if .sqe/project-fingerprint.json exists in the current working directory.\n   IF NOT found: Tell the user — \"No project fingerprint found. Run /sqe-kit:scan-project to scan this project before generating test artifacts. This only needs to be done once.\"\n   IF found: Read it and confirm in one line: \"Active project: <packageJson.name> | <testStyle> | POMs: <dirs.pom> | Tests: <dirs.nonbdd or dirs.bdd>\"\n2. All SQE commands are prefixed with /sqe-kit: — e.g., /sqe-kit:scan-project, /sqe-kit:generate-automation-tests, /sqe-kit:e2e, /sqe-kit:gen-manual-tests, /sqe-kit:gen-user-stories.\n\nPOST-GENERATION HOOK: After any generation command completes, read PLUGIN_DIR/configs/integrations.yml. Follow these activation rules:\n- If plugins.github.enabled: true → read and follow PLUGIN_DIR/plugins/github.md\n- If plugins.jira.enabled: true → read and follow PLUGIN_DIR/plugins/jira.md\n- If plugins.allureServer.enabled: true → read and follow PLUGIN_DIR/plugins/allure-server.md",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[sqe-kit] File written: $TOOL_INPUT_FILE_PATH\""
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "id": "kit-u1",
+  "extends": null,
+  "displayName": "UI Greenfield — Playwright TypeScript",
+  "mode": "greenfield",
+  "tech": {
+    "language": "typescript",
+    "testRunner": "playwright",
+    "apiClient": null,
+    "bddRunner": null,
+    "bddRunnerBdd": "@cucumber/cucumber"
+  },
+  "testStyle": "both",
+  "locatorStrategies": ["playwright-mcp", "dom-based", "ai-guided"],
+  "reporting": ["playwright-html", "allure"],
+  "outputDir": "./outputs",
+  "templates": "templates",
+  "agents": {
+    "intake": "agents/capability-3/intake-agent.md",
+    "locator": "agents/capability-3/locator-agent.md",
+    "pom": "agents/capability-3/pom-agent.md",
+    "testGenerator": "agents/capability-3/testgen-agent.md",
+    "bdd": "agents/capability-3/bdd-agent.md",
+    "dataGen": "agents/capability-3/datagen-agent.md",
+    "scaffolder": "agents/capability-3/framework-setup-agent.md",
+    "reporting": "agents/capability-3/reporting-agent.md",
+    "ci": "agents/capability-3/ci-agent.md"
+  },
+  "namingConventions": {
+    "pageObjectSuffix": "Page",
+    "specFileSuffix": ".spec.ts",
+    "featureFileDir": "tests/bdd",
+    "stepsFileDir": "tests/bdd",
+    "stepFileSuffix": ".steps.ts",
+    "pomDir": "src/pages",
+    "testDir": "tests/nonbdd",
+    "fixturesDir": "src/fixtures"
+  },
+  "dependencies": {
+    "pinned": {
+      "@playwright/test": "^1.44.0",
+      "allure-playwright": "^3.0.0",
+      "typescript": "^5.4.0",
+      "@faker-js/faker": "^8.4.0"
+    },
+    "bddExtra": {
+      "@cucumber/cucumber": "^10.0.0",
+      "@cucumber/playwright": "^0.0.1",
+      "@types/node": "^20.0.0"
+    }
+  }
+}

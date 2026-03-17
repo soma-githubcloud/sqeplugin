@@ -1,0 +1,6 @@
+{
+  "name": "sqe-kit",
+  "description": "SQE Synthetic Quality Engineer — full 3-capability quality pipeline (req→story, story→TC, TC→automation) with brownfield support for existing Playwright TypeScript projects",
+  "version": "1.0.0",
+  "author": { "name": "SQE Kit" }
+}
